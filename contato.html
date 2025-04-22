@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br" >
 <head>
-    <meta charset=”utf-8”>  
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./css/style_contato.css">
-    <script src="/js/script_contato.js" defer></script> 
+    <script src="js/script_contato.js" defer></script>
+
+
     <title>Contato</title>
 </head>
 <body>
@@ -41,26 +43,26 @@
       <br>
   </div> 
  <!--Conteúdo-->
-  <form id="formulario">
+ <form id="formulario">
+  <div class="form_group">
+    <label for="nome">Nome:</label><br>
+    <input type="text" name="nome" id="nome" required><br>
 
-      <div class="form_group">
-        <label for="nome">Nome:</label><br>
-        <input type="text" name="nome" id="nome" required><br>
+    <label for="email">E-mail:</label><br>
+    <input type="email" name="email" id="email" required><br>
 
-        <label for="email">E-mail:</label><br>
-        <input type="email" name="email" id="email" required><br>
+    <label for="assunto">Assunto:</label><br>
+    <input type="text" name="assunto" id="assunto" required><br>
 
-        <label for="assunto">Assunto:</label><br>
-        <input type="text" name="assunto" id="assunto" required><br>
+    <label class="campo" for="mensagem">Mensagem:</label><br>
+    <textarea id="mensagem" name="mensagem" rows="20" style="width: 26em; height: 15em" required></textarea>
+  </div>
 
-        <label class="campo" for="mensagem">Mensagem:</label><br>
-        <textarea id="textoarea" row="20" style="width: 26em; height: 15em" id="mensagem"></textarea required><br> 
-      
-      </div>
-  </form>    
-    <div class="button">
-      <button id="button" type="submit">Enviar</button>
-    </div>  
+  <div class="button">
+    <button id="button" type="submit">Enviar</button>
+  </div>
+</form>
+ 
      
     <footer>
         <img src="./imagens/logomarca.png" alt="descrição da logo"/> 
