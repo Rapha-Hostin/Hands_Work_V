@@ -1,5 +1,5 @@
      // Seleciona o item do menu e o sub-menu
-     //***************************************//
+     //******************************//
 
      // Seleciona o segundo item (li) dentro do menu
      const transtornosItem = document.querySelector('.menu li:nth-child(2)');
