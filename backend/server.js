@@ -1,20 +1,19 @@
-console.log("Iniciando servidor...");
 const express = require("express");
 const cors = require("cors");
 const sqlite3 = require("sqlite3").verbose();
 const app = express();
 const port = 3000;
 
-// Configuração CORS para aceitar requisições do GoLive
-
+// Middleware CORS
 app.use(cors({
-  origin: ["http://localhost:5500", "http://127.0.0.1:5500"], // Adiciona ambos os domínios
-  methods: ["POST"],
-  allowedHeaders: ["Content-Type"]
+  origin: 'http://192.168.15.10:5500', // frontend
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
 }));
 
 app.use(express.json());
 
+// Banco de dados SQLite
 const db = new sqlite3.Database("contatos.db");
 
 db.run(`
@@ -25,16 +24,9 @@ db.run(`
     assunto TEXT,
     mensagem TEXT
   )
-`, (err) => {
-  if (err) {
-    console.error("Erro ao criar tabela:", err.message);
-  } else {
-    console.log("Tabela 'contatos' verificada/criada com sucesso.");
-  }
-});
+`);
 
-
-
+// Rota para envio de formulário
 app.post("/contato", (req, res) => {
   const { nome, email, assunto, mensagem } = req.body;
 
@@ -45,17 +37,21 @@ app.post("/contato", (req, res) => {
   const stmt = db.prepare("INSERT INTO contatos (nome, email, assunto, mensagem) VALUES (?, ?, ?, ?)");
   stmt.run(nome, email, assunto, mensagem, function (err) {
     if (err) {
-      console.error("Erro ao inserir no banco de dados:", err.message);
+      console.error("Erro ao inserir no banco de dados:", err);
       return res.status(500).json({ error: "Erro interno do servidor." });
     }
-  
-    console.log("Novo contato inserido com ID:", this.lastID);
+
     res.status(200).json({ message: "Contato recebido com sucesso!" });
   });
-  
-
 });
 
+// Rota default (opcional)
+app.get("/", (req, res) => {
+  res.send("API de Contatos está no ar!");
+});
+
+// Inicialização do servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
+

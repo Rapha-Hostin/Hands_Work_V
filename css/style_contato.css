@@ -68,8 +68,8 @@ header {
 /* body da página*/
 #imagem
 {
-    max-width: 100%; /* Largura de 300 pixels */
-    height: auto; /* Altura de 200 pixels */
+    max-width: 50%; /* Largura de 300 pixels */
+    height: 50%; /* Altura de 200 pixels */
     margin-top: 40px; /* margem no topo */
     margin-bottom: none; /* margem na parte inferior */
 }

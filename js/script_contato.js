@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("formulario");
 
   form.addEventListener("submit", async function (event) {
-    event.preventDefault(); // Evita o reload da página
+    event.preventDefault(); // Impede o recarregamento da página
 
     const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
@@ -10,8 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const mensagem = document.getElementById("mensagem").value;
 
     try {
-      const response = await fetch("http://127.0.0.1:3000/contato", {
-
+      const response = await fetch("http://192.168.15.10:3000/contato", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,13 +22,15 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Mensagem enviada com sucesso!");
         form.reset();
       } else {
-        alert("Erro ao enviar mensagem.");
+        const errorData = await response.json();
+        alert("Erro ao enviar mensagem: " + (errorData.error || "Erro desconhecido."));
       }
     } catch (error) {
       console.error("Erro:", error);
-      alert("Erro no bando de dados ao enviar mensagem.");
+      alert("Erro ao conectar com o servidor. Verifique se o backend está rodando.");
     }
   });
 });
+
 
 
