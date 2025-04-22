@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const mensagem = document.getElementById("mensagem").value;
 
     try {
-      const response = await fetch("http://localhost:3000/contato", {
+      const response = await fetch("http://127.0.0.1:3000/contato", {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (error) {
       console.error("Erro:", error);
-      alert("Erro ao enviar mensagem.");
+      alert("Erro no bando de dados ao enviar mensagem.");
     }
   });
 });
