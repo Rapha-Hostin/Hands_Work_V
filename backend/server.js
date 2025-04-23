@@ -51,10 +51,11 @@ app.post("/contato", (req, res) => {
   }
 });
 
-// 👉 Rota para página inicial (home.html)
-app.get("/", (req, res) => {
+
+app.get("/home", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "home.html"));
 });
+
 
 // 👉 Rota para página de contato (contato.html)
 app.get("/contato", (req, res) => {
