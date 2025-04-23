@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const mensagem = document.getElementById("mensagem").value;
 
     try {
-      const response = await fetch("http://192.168.15.10:3000/contato", {
+      const response = await fetch("https://hands-work-v.onrender.com/contato", { ... })
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",

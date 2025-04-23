@@ -1,12 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-const sqlite3 = require("sqlite3").verbose();
+const Database = require("better-sqlite3");
 const app = express();
 const port = 3000;
 
 // Middleware CORS
 app.use(cors({
-  origin: 'http://192.168.15.10:5500', // frontend
+  origin: 'http://192.168.15.10:5500',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
 }));
@@ -14,9 +14,10 @@ app.use(cors({
 app.use(express.json());
 
 // Banco de dados SQLite
-const db = new sqlite3.Database("contatos.db");
+const db = new Database("contatos.db");
 
-db.run(`
+// Criação da tabela
+db.prepare(`
   CREATE TABLE IF NOT EXISTS contatos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT,
@@ -24,7 +25,7 @@ db.run(`
     assunto TEXT,
     mensagem TEXT
   )
-`);
+`).run();
 
 // Rota para envio de formulário
 app.post("/contato", (req, res) => {
@@ -34,18 +35,17 @@ app.post("/contato", (req, res) => {
     return res.status(400).json({ error: "Todos os campos são obrigatórios." });
   }
 
-  const stmt = db.prepare("INSERT INTO contatos (nome, email, assunto, mensagem) VALUES (?, ?, ?, ?)");
-  stmt.run(nome, email, assunto, mensagem, function (err) {
-    if (err) {
-      console.error("Erro ao inserir no banco de dados:", err);
-      return res.status(500).json({ error: "Erro interno do servidor." });
-    }
-
+  try {
+    const stmt = db.prepare("INSERT INTO contatos (nome, email, assunto, mensagem) VALUES (?, ?, ?, ?)");
+    stmt.run(nome, email, assunto, mensagem);
     res.status(200).json({ message: "Contato recebido com sucesso!" });
-  });
+  } catch (err) {
+    console.error("Erro ao inserir no banco de dados:", err);
+    res.status(500).json({ error: "Erro interno do servidor." });
+  }
 });
 
-// Rota default (opcional)
+// Rota default
 app.get("/", (req, res) => {
   res.send("API de Contatos está no ar!");
 });
@@ -54,4 +54,5 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
+
 
