@@ -4,6 +4,8 @@ const Database = require("better-sqlite3");
 const path = require("path");
 const app = express();
 const port = 3000;
+const path = require("path");
+
 
 // Middleware CORS
 app.use(cors({
@@ -30,6 +32,9 @@ db.prepare(`
     mensagem TEXT
   )
 `).run();
+
+app.use(express.static(path.join(__dirname, "..")));
+
 
 // Rota para envio de formulário
 app.post("/contato", (req, res) => {
