@@ -4,7 +4,6 @@ const Database = require("better-sqlite3");
 const path = require("path");
 const app = express();
 const port = 3000;
-const path = require("path");
 
 
 // Middleware CORS
