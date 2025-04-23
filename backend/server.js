@@ -3,20 +3,19 @@ const cors = require("cors");
 const Database = require("better-sqlite3");
 const path = require("path");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Render precisa disso!
 
-
-// Middleware CORS
+// Middleware CORS (ajuste se precisar liberar pra mais domínios)
 app.use(cors({
-  origin: 'http://192.168.15.10:5500',
+  origin: '*',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
 }));
 
 app.use(express.json());
 
-// Servir arquivos estáticos (HTML, CSS, JS, imagens)
-app.use(express.static(path.join(__dirname, 'public'))); // Se seus arquivos estiverem na pasta 'public'
+// Servir arquivos estáticos do diretório principal do projeto (um nível acima de /backend)
+app.use(express.static(path.join(__dirname, "..")));
 
 // Banco de dados SQLite
 const db = new Database("contatos.db");
@@ -31,9 +30,6 @@ db.prepare(`
     mensagem TEXT
   )
 `).run();
-
-app.use(express.static(path.join(__dirname, "..")));
-
 
 // Rota para envio de formulário
 app.post("/contato", (req, res) => {
@@ -53,15 +49,16 @@ app.post("/contato", (req, res) => {
   }
 });
 
-// Rota default
+// Redireciona a rota raiz para a home, por exemplo
 app.get("/", (req, res) => {
-  res.send("API de Contatos está no ar!");
+  res.redirect("/home.html"); // ou qualquer nome do seu HTML principal
 });
 
 // Inicialização do servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
+
 
 
 
