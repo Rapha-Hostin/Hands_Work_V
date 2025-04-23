@@ -3,21 +3,21 @@ const cors = require("cors");
 const Database = require("better-sqlite3");
 const path = require("path");
 const app = express();
-const port = process.env.PORT || 3000; // Render precisa disso!
+const port = 3000;
 
-// Middleware CORS (ajuste se precisar liberar pra mais domínios)
+// Middleware CORS
 app.use(cors({
-  origin: '*',
+  origin: '*', // ou coloque o domínio correto se for restrito
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
 }));
 
 app.use(express.json());
 
-// Servir arquivos estáticos do diretório principal do projeto (um nível acima de /backend)
+// 👉 Servir os arquivos estáticos da raiz (um nível acima de /backend)
 app.use(express.static(path.join(__dirname, "..")));
 
-// Banco de dados SQLite
+// Banco de dados
 const db = new Database("contatos.db");
 
 // Criação da tabela
@@ -31,7 +31,7 @@ db.prepare(`
   )
 `).run();
 
-// Rota para envio de formulário
+// Rota POST do formulário
 app.post("/contato", (req, res) => {
   const { nome, email, assunto, mensagem } = req.body;
 
@@ -49,9 +49,9 @@ app.post("/contato", (req, res) => {
   }
 });
 
-// Redireciona a rota raiz para a home, por exemplo
+// Rota GET / redireciona para home.html
 app.get("/", (req, res) => {
-  res.redirect("/home.html"); // ou qualquer nome do seu HTML principal
+  res.sendFile(path.join(__dirname, "..", "home.html"));
 });
 
 // Inicialização do servidor
