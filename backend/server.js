@@ -2,19 +2,20 @@ const express = require("express");
 const cors = require("cors");
 const Database = require("better-sqlite3");
 const path = require("path");
+
 const app = express();
 const port = 3000;
 
 // Middleware CORS
 app.use(cors({
-  origin: '*', // ou coloque o domínio correto se for restrito
+  origin: '*',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
 }));
 
 app.use(express.json());
 
-// 👉 Servir os arquivos estáticos da raiz (um nível acima de /backend)
+// 👉 Servir arquivos estáticos (CSS, JS, imagens etc.)
 app.use(express.static(path.join(__dirname, "..")));
 
 // Banco de dados
@@ -49,15 +50,22 @@ app.post("/contato", (req, res) => {
   }
 });
 
-// Rota GET / redireciona para home.html
+// 👉 Rota para página inicial (home.html)
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "home.html"));
+});
+
+// 👉 Rota para página de contato (contato.html)
+app.get("/contato", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "contato.html"));
 });
 
 // Inicialização do servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
+
+
 
 
 
