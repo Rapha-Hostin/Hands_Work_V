@@ -54,6 +54,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "home.html"));
 });
 
+
 // Inicialização do servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
