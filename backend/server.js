@@ -4,7 +4,8 @@ const Database = require("better-sqlite3");
 const path = require("path");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Usar a porta fornecida pela plataforma ou 3000 localmente
+
 
 // Middleware CORS
 app.use(cors({
