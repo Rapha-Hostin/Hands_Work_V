@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const Database = require("better-sqlite3");
+const path = require("path");
 const app = express();
 const port = 3000;
 
@@ -12,6 +13,9 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Servir arquivos estáticos (HTML, CSS, JS, imagens)
+app.use(express.static(path.join(__dirname, 'public'))); // Se seus arquivos estiverem na pasta 'public'
 
 // Banco de dados SQLite
 const db = new Database("contatos.db");
@@ -54,5 +58,7 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
+
+
 
 
